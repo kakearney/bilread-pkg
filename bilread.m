@@ -33,21 +33,38 @@ end
 
 % Default values
 
-Hdr.nrows = NaN;
-Hdr.ncols = NaN;
-Hdr.nbands = 1;
-Hdr.nbits = 8;
-Hdr.pixeltype = 'unsigned';
-Hdr.byteorder = 'n'; % native
-Hdr.layout = 'bil';
-Hdr.skipbytes = 0;
-Hdr.ulxmap = NaN;
-Hdr.ulymap = NaN;
-Hdr.xdim = NaN;
-Hdr.ydim = NaN;
-Hdr.bandrowbytes = NaN;
-Hdr.totalrowbytes = NaN;
-Hdr.bandgapbytes = 0;
+p = inputParser;
+p.addParameter('nrows', NaN);
+p.addParameter('ncols', NaN);
+p.addParameter('nbands', 1);
+p.addParameter('nbits', 8);
+p.addParameter('pixeltype', 'unsigned');
+p.addParameter('byteorder', 'n'); % native
+p.addParameter('layout', 'bil');
+p.addParameter('skipbytes', 0);
+p.addParameter('ulxmap', NaN);
+p.addParameter('ulymap', NaN);
+p.addParameter('xdim', NaN);
+p.addParameter('ydim', NaN);
+p.addParameter('bandrowbytes', NaN);
+p.addParameter('totalrowbytes', NaN);
+p.addParameter('bandgapbytes', 0);
+
+% Hdr.nrows = NaN;
+% Hdr.ncols = NaN;
+% Hdr.nbands = 1;
+% Hdr.nbits = 8;
+% Hdr.pixeltype = 'unsigned';
+% Hdr.byteorder = 'n'; % native
+% Hdr.layout = 'bil';
+% Hdr.skipbytes = 0;
+% Hdr.ulxmap = NaN;
+% Hdr.ulymap = NaN;
+% Hdr.xdim = NaN;
+% Hdr.ydim = NaN;
+% Hdr.bandrowbytes = NaN;
+% Hdr.totalrowbytes = NaN;
+% Hdr.bandgapbytes = 0;
 
 % Read header file
 
@@ -62,7 +79,10 @@ ischar = ismember(hdrdata(:,1), {'pixeltype', 'byteorder', 'layout'});
 hdrdata(~ischar,2) = cellfun(@str2num, hdrdata(~ischar,2), 'uni', 0);
 hdrdata = hdrdata'; 
 
-Hdr = parsepv(Hdr, hdrdata(:));
+p.parse(hdrdata(:));
+Hdr = p.Results;
+
+% Hdr = parsepv(Hdr, hdrdata(:));
 
 % Parse machine format
 
